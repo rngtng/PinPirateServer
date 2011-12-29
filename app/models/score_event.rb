@@ -1,0 +1,2 @@
+class ScoreEvent < Event
+end
