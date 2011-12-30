@@ -44,3 +44,8 @@ group :test do
   # gem 'watchr'
   # gem 'simplecov'
 end
+
+group :client do
+  gem 'json'
+  gem 'serialport'
+end

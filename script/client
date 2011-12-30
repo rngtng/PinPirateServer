@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require "bundler/setup"
+Bundler.require(:client)
+
+API = "http://"
+#params for serial port
+PORT = ARGV.first || "/dev/tty.usbserial-A7006Qaq"
+BAUD_RATE = 115200
+
+sp = SerialPort.new(PORT, BAUD_RATE)
+
+sp.each_line do |line|
+  size, cmd, *data = line.strip.split(",")
+  if(1 + Array(data).size != size.to_i)
+    puts "Wrong size: #{size} - #{data}"
+  else
+    # case cmd.to_i
+    #   when 12: #player 1
+    #   when 13: #player 2
+    #   when 14: #player 3
+    #   when 15: #player 4
+    #     break
+    #   else
+    # end
+
+    #open("http://...", :http_basic_authentication=>[user, password])
+
+    puts data.to_json
+  end
+
+end
+
+sp.close
