@@ -1,16 +1,25 @@
-#games
+#games{:data => { :"games-path" => games_path, :"pull-time" => 1000.seconds } }
 
-  #player1
-    .name= best_in_place @game.player, :name
-    .score= @game.high_score
+  #scores
+    #player1.player
+      .name= best_in_place @game.player, :name
+      .slot= @game.slot
+      .display
+        .score= @game.high_score
+        .digits
+          - 8.times do |cnt|
+            - digit = @game.high_score_s[cnt]
+            %span{:class => "d#{digit}"}
+
+  %br
 
   %table
     %thead
       %tr
-        %th Player
-        %th Score
-        %th Date
-        %th Duration
+        %th.name Player
+        %th.high-score Score
+        %th.date Date
+        %th.duration Duration
 
     %tbody
       = render @games

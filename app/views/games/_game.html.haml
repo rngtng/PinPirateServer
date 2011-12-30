@@ -1,5 +1,5 @@
 %tr
-  %td= game.player.name
-  %td= game.high_score
-  %td= l(game.updated_at, :format => :full)
-  %td= game.duration
+  %td.name= game.player.name
+  %td.high-score= game.high_score
+  %td.date= l(game.updated_at, :format => :full)
+  %td.duration= game.duration

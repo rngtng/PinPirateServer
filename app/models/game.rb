@@ -23,4 +23,8 @@ class Game < ActiveRecord::Base
   def duration
     (updated_at - created_at).round
   end
+
+  def high_score_s
+    "%08d" % high_score
+  end
 end

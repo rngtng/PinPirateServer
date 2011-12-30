@@ -2,20 +2,111 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$dotW: 512;
+$dotH: 393;
+$dotWidth: 7 * 7;
+$dotHeight: 7 * 7;
+$dotOffX: 10;
+$dotOffY: 14;
+$dotScale: 2;
+$pageWidth: 8 * $dotWidth * $dotScale;
+
+@mixin dot_pos($x, $y) {
+  background-position: -#{$dotScale * ($dotOffX + $x * $dotWidth)}px -#{$dotScale * ($dotOffY + $y * ($dotOffY + $dotHeight))}px;
+}
+
 #games {
+  #scores {
+    border: 1px solid #222;
+    padding: 5px;
+    //border: 1px solid red;
+    width: #{$pageWidth}px;
+    display: block;
+    height: #{40 + $dotScale * $dotHeight}px;
+    margin: 20px auto;
+  }
+  .player {
+    .name {
+      font-size: 25px;
+      color: #EEE;
+      float: left;
+    }
+    .slot {
+      font-size: 15px;
+      color: #EEE;
+    }
+    .score {
+      display: none;
+      font-size: 25px;
+      color: #EEE;
+    }
+    .digits {
+      clear: left;
+      span {
+        // border: 1px solid red;
+        width: #{$dotScale * $dotWidth}px;
+        height: #{$dotScale * $dotHeight}px;
+        text-decoration: none;
+        display: block;
+        float: left;
+        background: asset-url("dot.jpeg", image) 0 0;
+        background-size: #{$dotScale * $dotW}px #{$dotScale * $dotH}px;
+
+        &.d1 {
+          @include dot_pos(0, 4); }
+        &.d2 {
+          @include dot_pos(1, 4); }
+        &.d3 {
+          @include dot_pos(2, 4); }
+        &.d4 {
+          @include dot_pos(3, 4); }
+        &.d5 {
+          @include dot_pos(4, 4); }
+        &.d6 {
+          @include dot_pos(0, 5); }
+        &.d7 {
+          @include dot_pos(1, 5); }
+        &.d8 {
+          @include dot_pos(2, 5); }
+        &.d9 {
+          @include dot_pos(3, 5); }
+        &.d0 {
+          @include dot_pos(4, 5); }
+      }
+    }
+  }
+
   table {
+    //border: 1px solid red;
     background-color: #aaa;
-    width: 100%;}
+    width: #{0.8 * $pageWidth}px;
+    margin: auto;
 
-  tbody {
-    background-color: #ddd;
-    height: 100px;
-    overflow: auto; }
+    tbody {
+      background-color: #ddd;
+      height: 100px;
+      overflow: auto; }
 
-  th, td {
-    padding: 3px 10px;
-    width: 25%; }
+    th, td {
+      padding: 3px 10px;
+      width: 25%;
 
-  thead > tr, tbody {
-    width: 100%;
-    display:block; } }
+      &.name {
+        width: 300px;
+        font-weight: bold; }
+      &.high-score {
+        width: 200px;
+        font-weight: bold; }
+      &.date {
+        width: 165px; }
+      &.duration {
+        width: 85px; }
+
+      }
+
+    td.high-score {
+      color: green; }
+
+    thead > tr, tbody {
+      width: 100%;
+      display:block; } } }
