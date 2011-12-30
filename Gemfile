@@ -13,8 +13,8 @@ gem 'haml'
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.1.5'
-  gem 'coffee-rails', '~> 3.1.1'
-  gem 'uglifier', '>= 1.0.3'
+  # gem 'coffee-rails', '~> 3.1.1'
+  # gem 'uglifier', '>= 1.0.3'
 end
 
 gem 'jquery-rails'
@@ -34,9 +34,10 @@ gem 'capistrano', :group => :development
 gem 'rspec-rails', :group => [:development, :test]
 gem 'spin', :group => [:development, :test]
 
-group :test do
-  gem 'json' #needed for resque to run on travis-ci
+#in place editing
+gem 'best_in_place'
 
+group :test do
   #fixtures
   gem 'faker'
   gem 'factory_girl_rails'

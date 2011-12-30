@@ -1,7 +1,7 @@
 #games
 
   #player1
-    .name= @game.player.name
+    .name= best_in_place @game.player, :name
     .score= @game.high_score
 
   %table

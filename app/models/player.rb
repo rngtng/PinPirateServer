@@ -3,4 +3,7 @@ class Player < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
 
+  def self.find_or_build_by(attrs)
+    where(attrs).first || new(attrs)
+  end
 end
