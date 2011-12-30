@@ -4,6 +4,9 @@ describe GamesController do
 
   render_views
 
+  let(:player) { Player.create( :name => "Player 1" ) }
+  let!(:game) { player.games.create }
+
   it "returns valid page" do
     get :index
     response.status.should == 200

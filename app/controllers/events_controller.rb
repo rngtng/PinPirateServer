@@ -8,11 +8,11 @@ class EventsController < ApplicationController
 
   def create
     @game = Game.find(params[:game_id])
-    event = @game.events.new(params[:event])
-    event.type = params[:type] if params[:type]
-    event.save
+    @event = @game.score_events.new(params[:event])
+  #  @event.type = params[:type] if params[:type]
+    @event.save!
 
-    render :json => @game #TODO return event here??
+    render :json => @event.to_json(:only => [:id, :game_id], :methods => [:score])
   rescue => e
     render :json => {}, :status => 404
   end

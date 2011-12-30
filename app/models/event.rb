@@ -3,4 +3,5 @@ class Event < ActiveRecord::Base
 
   validates :raw_data, :presence => true
 
+  serialize :raw_data
 end

@@ -1,5 +1,10 @@
 require 'spec_helper'
 
 describe Game do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it "creates" do
+    Game.create.should_not be_new_record
+  end
+
+
 end

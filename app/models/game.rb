@@ -4,8 +4,4 @@ class Game < ActiveRecord::Base
 
   belongs_to :player
 
-  def high_score
-    1111
-  end
-
 end
