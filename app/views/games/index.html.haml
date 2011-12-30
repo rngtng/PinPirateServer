@@ -1,0 +1,14 @@
+#games
+
+  #player1
+    .name= @game.player.name
+    .score= @game.high_score
+
+  %table
+    %thead
+      %tr
+        %th Player
+        %th Score
+
+    %tbody
+      = render @games

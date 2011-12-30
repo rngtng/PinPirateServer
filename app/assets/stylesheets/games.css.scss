@@ -1,0 +1,19 @@
+// Place all the styles related to the scores controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#games {
+  table {
+    background-color: #aaa; 
+    width: 100%;}
+
+  tbody {
+    background-color: #ddd;
+    height: 100px;
+    overflow: auto; }
+
+  th, td {
+    padding: 3px 10px; }
+
+  thead > tr, tbody {
+    display:block; } }
