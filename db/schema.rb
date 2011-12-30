@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(:version => 20111230091403) do
     t.integer  "player_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "high_score"
+    t.integer  "high_score", :default => 0
     t.integer  "slot",       :default => 1
   end
 
