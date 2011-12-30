@@ -1,34 +1,59 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require "bundler/setup"
+require 'net/http'
 Bundler.require(:client)
 
-API = "http://"
+API_URI = "/games/1/scores"
+API_URL = "http://p.warteschlange.de:8080#{API_URI}";
+#API_URL = "http://localhost:3000#{API_URI}";
+
 #params for serial port
 PORT = ARGV.first || "/dev/tty.usbserial-A7006Qaq"
 BAUD_RATE = 115200
 
-sp = SerialPort.new(PORT, BAUD_RATE)
+@url = URI.parse(API_URL)
+@http = Net::HTTP.new(@url.host, @url.port)
 
-sp.each_line do |line|
-  size, cmd, *data = line.strip.split(",")
-  if(1 + Array(data).size != size.to_i)
-    puts "Wrong size: #{size} - #{data}"
-  else
-    # case cmd.to_i
-    #   when 12: #player 1
-    #   when 13: #player 2
-    #   when 14: #player 3
-    #   when 15: #player 4
-    #     break
-    #   else
-    # end
-
-    #open("http://...", :http_basic_authentication=>[user, password])
-
-    puts data.to_json
+class Hash
+  def to_query(namespace = nil)
+    collect do |key, value|
+      value.to_query(namespace ? "#{namespace}[#{key}]" : key)
+    end.sort * '&'
   end
-
 end
 
+class Array
+  def to_query(key)
+    collect { |value| value.to_query("#{key}[]") } * '&'
+  end
+end
+
+class String
+  def to_query(key)
+    "#{key}=#{self}"
+  end
+end
+
+def send(data)
+  resp, data = @http.post(@url.path, {:event => { :raw_data => data } }.to_query )
+rescue => e
+  puts e.message
+end
+
+sp = SerialPort.new(PORT, BAUD_RATE)
+sp.each_line do |line|
+  size, *data = line.strip.split(",")
+  if(Array(data).size != size.to_i)
+    puts "Wrong size: #{size} - #{data}"
+  else
+    case data.first
+      when "C" then send(data)
+      when "D" then send(data)
+      when "E" then send(data)
+      when "F" then send(data)
+    end
+    puts data.inspect
+  end
+end
 sp.close
