@@ -29,17 +29,24 @@ $pageWidth: 8 * $dotWidth * $dotScale;
     .name {
       font-size: 25px;
       color: #EEE;
-      float: left;
-    }
+      float: left; }
+
     .slot {
       font-size: 15px;
-      color: #EEE;
-    }
+      color: #EEE; }
+
+    // .twitter {
+    //   font-size: 18px;
+    //   color: #EEE; }
+
     .score {
       display: none;
       font-size: 25px;
-      color: #EEE;
-    }
+      color: #EEE; }
+
+    .display {
+      margin-top: 15px; }
+
     .digits {
       clear: left;
       span {
