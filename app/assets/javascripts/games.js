@@ -23,6 +23,7 @@ updateGame = function(game){
              d = game.high_score_s.substr(index, 1) || 0;
     $digit.attr('class', "d" + d);
   });
+  $('.best_in_place').best_in_place();
 },
 schedule = function(){
   $('#games:not(.scheduled)').each(function(){
@@ -36,6 +37,5 @@ schedule = function(){
 };
 
 $(function(){
-  $('.best_in_place').best_in_place();
   schedule();
 });
