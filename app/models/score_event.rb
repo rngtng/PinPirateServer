@@ -22,7 +22,7 @@ class ScoreEvent < Event
 
   def check_game_slot
     if self.game.nil? || self.game.slot != self.slot
-      self.game = Game.latest(self.slot).first
+      self.game = Game.current(self.slot).first
     end
   end
 
@@ -35,6 +35,7 @@ class ScoreEvent < Event
 
   def check_game_score
     if self.game.score > self.score
+      self.game.finish!
       self.game = Game.create!(:player => self.game.player, :slot => self.game.slot)
     end
   end

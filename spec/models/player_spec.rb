@@ -20,4 +20,21 @@ describe Player do
       Player.new(:name => p.name).should_not be_valid
     end
   end
+
+  describe "check_twitter_handle" do
+    it "adds @ to handle" do
+      player = Player.create(:name => 'Player 1', :twitter_handle => "p")
+      player.twitter_handle.should == "@p"
+    end
+
+    it "is empty if no handle" do
+      player = Player.create(:name => 'Player 1')
+      player.twitter_handle.should be_nil
+    end
+
+    it "keeps handle if @ present" do
+      player = Player.create(:name => 'Player 1', :twitter_handle => "@p")
+      player.twitter_handle.should == "@p"
+    end
+  end
 end
