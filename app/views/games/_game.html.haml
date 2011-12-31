@@ -1,5 +1,5 @@
 %tr
   %td.name= "#{game_counter + 1}. #{game.player.name}"
-  %td.high-score= number_with_delimiter(game.score)
+  %td.score= number_with_delimiter(game.score)
   %td.date= l(game.updated_at, :format => :full)
   %td.duration= game.duration
