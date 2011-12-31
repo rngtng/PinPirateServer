@@ -20,10 +20,10 @@ updateGame = function(game){
     $('.best_in_place').best_in_place();
   }
   $(".player .slot").html(game.slot);
-  $(".player .score").html(game.high_score);
+  $(".player .score").html(game.score);
   $(".player .digits span").each(function(index) {
     var $digit = $(this),
-             d = game.high_score_s.substr(index, 1) || 0;
+             d = game.score_s.substr(index, 1) || 0;
     $digit.attr('class', "d" + d);
   });
 },

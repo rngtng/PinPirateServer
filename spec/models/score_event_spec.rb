@@ -27,7 +27,7 @@ describe ScoreEvent do
   it "updates game" do
     expect do
       score_event
-    end.to change { game.reload.high_score }.to(3424)
+    end.to change { game.reload.score }.to(3424)
   end
 
   describe "#game_id" do
@@ -42,22 +42,22 @@ describe ScoreEvent do
         score_event.game.slot == 2
       end
 
-      it "sets new game high_score" do
-        score_event.game.high_score == 3424
+      it "sets new game score" do
+        score_event.game.score == 3424
       end
 
       it "updates not old game highscore" do
         expect do
           score_event
-        end.to_not change { game.high_score }
+        end.to_not change { game.score }
       end
     end
 
     context "existing higher game" do
-      let(:high_score) { 5000 }
+      let(:score) { 5000 }
 
       before do
-        game.update_attributes(:high_score => high_score)
+        game.update_attributes(:score => score)
       end
 
       it "created new game" do
@@ -69,13 +69,13 @@ describe ScoreEvent do
       end
 
       it "sets new game" do
-        score_event.game.high_score == 3424
+        score_event.game.score == 3424
       end
 
        it "updates not old game highscore" do
          expect do
            score_event
-         end.to_not change { game.high_score }
+         end.to_not change { game.score }
        end
     end
   end

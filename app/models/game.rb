@@ -24,7 +24,7 @@ class Game < ActiveRecord::Base
     (updated_at - created_at).round
   end
 
-  def high_score_s
-    "%08d" % high_score
+  def score_s
+    "%08d" % score
   end
 end

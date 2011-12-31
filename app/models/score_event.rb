@@ -34,12 +34,12 @@ class ScoreEvent < Event
   end
 
   def check_game_score
-    if self.game.high_score > self.score
+    if self.game.score > self.score
       self.game = Game.create!(:player => self.game.player, :slot => self.game.slot)
     end
   end
 
   def update_game
-    game.update_attributes(:high_score => self.score)
+    game.update_attributes(:score => self.score)
   end
 end
