@@ -20,7 +20,7 @@ $pageWidth: 8 * $dotWidth * $dotScale;
     border: 1px solid #222;
     padding: 5px;
     //border: 1px solid red;
-    width: #{$pageWidth + 10}px;
+    width: #{$pageWidth + 40}px;
     display: block;
     height: #{40 + $dotScale * $dotHeight}px;
     margin: 20px auto;
@@ -58,9 +58,9 @@ $pageWidth: 8 * $dotWidth * $dotScale;
         float: left;
         background: asset-url("dot.jpeg", image) 0 0;
         background-size: #{$dotScale * $dotW}px #{$dotScale * $dotH}px;
-
+        margin: 1px;
         &#d1, &#d4,  {
-          margin-right: 5px; }
+          margin-right: 10px; }
         &.d1 {
           @include dot_pos(0, 4); }
         &.d2 {
@@ -103,7 +103,7 @@ $pageWidth: 8 * $dotWidth * $dotScale;
       &.name {
         width: 300px;
         font-weight: bold; }
-      &.high-score {
+      &.score {
         width: 200px;
         font-weight: bold; }
       &.date {
@@ -113,8 +113,10 @@ $pageWidth: 8 * $dotWidth * $dotScale;
 
       }
 
-    td.high-score {
-      color: green; }
+    td.score {
+      color: green;
+      text-align: right;
+      padding-right: 40px; }
 
     thead > tr, tbody {
       width: 100%;
