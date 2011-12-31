@@ -5,11 +5,11 @@
       .name= best_in_place @game.player, :name
       .slot= @game.slot
       .display
-        .score= @game.high_score
+        .score= number_with_delimiter(@game.high_score)
         .digits
           - 8.times do |cnt|
             - digit = @game.high_score_s[cnt]
-            %span{:class => "d#{digit}"}
+            %span{:class => "d#{digit}", :id => "d#{cnt}"}
 
   %br
 

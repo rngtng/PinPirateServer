@@ -20,7 +20,7 @@ $pageWidth: 8 * $dotWidth * $dotScale;
     border: 1px solid #222;
     padding: 5px;
     //border: 1px solid red;
-    width: #{$pageWidth}px;
+    width: #{$pageWidth + 10}px;
     display: block;
     height: #{40 + $dotScale * $dotHeight}px;
     margin: 20px auto;
@@ -52,6 +52,8 @@ $pageWidth: 8 * $dotWidth * $dotScale;
         background: asset-url("dot.jpeg", image) 0 0;
         background-size: #{$dotScale * $dotW}px #{$dotScale * $dotH}px;
 
+        &#d1, &#d4,  {
+          margin-right: 5px; }
         &.d1 {
           @include dot_pos(0, 4); }
         &.d2 {
