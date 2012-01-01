@@ -1,9 +1,9 @@
 # PinPirate
 
-Status: ![](http://stillmaintained.com/rngtng/prinpirateserver.png)
+Status: ![](http://stillmaintained.com/rngtng/PinPirateServer.png)
 
-Build: ![](http://travis-ci.org/rngtng/prinpirateserver.png)
+Build: ![](http://travis-ci.org/rngtng/PinPirateServer.png)
 
-Dependencies: http://gemnasium.com/rngtng/prinpirateserver.png
+Dependencies: http://gemnasium.com/rngtng/PinPirateServer.png
 
 ## Rails App to process and visualize Pinball Data

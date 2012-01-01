@@ -1,4 +1,5 @@
 Pinpirate::Application.routes.draw do
+  resources :charts, :only => [:index]
 
   resources :players, :only => [:update]
 

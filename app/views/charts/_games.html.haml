@@ -1,0 +1,102 @@
+#games-chart
+
+:javascript
+  data = #{games_chart.to_json},
+  size = 1,
+  _dummy = $.each(data, function(){
+     size++;
+  }),
+  total_cnt = 0,
+  _dummy = $.map(data, function(obj){
+    total_cnt += parseInt(obj.cnt);
+  }),
+  chart = new Highcharts.Chart({
+    chart: {
+       renderTo: 'games-chart',
+       defaultSeriesType: 'bar',
+       height: 85 * size,
+    },
+    title: {
+       text: 'Games (' + total_cnt + ' played)'
+    },
+    // subtitle: {
+    //    text: 'Source: Wikipedia.org'
+    // },
+    xAxis: {
+       categories: $.map(data,function(obj){
+         return obj.name;
+       }),
+       title: {
+          text: null
+       }
+    },
+    yAxis: [{
+       min: 0,
+       title: {
+          text: 'Points',
+          align: 'high'
+       }
+    }, {
+       min: 0,
+       opposite: true,
+       title: {
+          text: 'Plays',
+       }
+    }],
+    tooltip: {
+       shared: true,
+       formatter: function() {
+          var out = '';
+          $.each(this.points, function(i, p) {
+            var text = (p.series.name != "Games played") ? 'points' : '';
+            out += '' + p.series.name +': '+ p.y +' ' + text + '<br>';
+          });
+          return out;
+       }
+    },
+    plotOptions: {
+       bar: {
+          dataLabels: {
+             enabled: true
+          }
+       }
+    },
+    legend: {
+       layout: 'vertical',
+       align: 'right',
+       verticalAlign: 'top',
+       x: -20,
+       y: 120,
+       floating: true,
+       borderWidth: 1,
+       backgroundColor: '#FFFFFF',
+       shadow: true
+    },
+    series: [{
+       name: 'Average',
+       data: $.map(data,function(obj){
+          return Math.round(parseInt(obj.total) / parseInt(obj.cnt));
+        }),
+        yAxis: 0,
+    //}, {
+    //    name: 'Total',
+    //    data: $.map(data,function(obj){
+    //       return parseInt(obj.total);
+    //     }),
+    //     yAxis: 0,
+    }, {
+       name: 'Best',
+       data: $.map(data,function(obj){
+          return parseInt(obj.best);
+        }),
+        yAxis: 0,
+    }, {
+       type: 'spline',
+       name: 'Games played',
+       data: $.map(data,function(obj){
+          return parseInt(obj.cnt);
+        }),
+        yAxis: 1,
+     }]
+  });
+});

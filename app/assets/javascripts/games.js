@@ -39,5 +39,7 @@ schedule = function(){
 };
 
 $(function(){
-  schedule();
+  $('#games').each(function(){
+    schedule();
+  });
 });
