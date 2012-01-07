@@ -34,6 +34,12 @@ class Array
   def to_query(key)
     collect { |value| value.to_query("#{key}[]") } * '&'
   end
+
+  def to_hex
+    map do |d|
+      "%02x" %
+    end.join
+  end
 end
 
 class String
@@ -71,11 +77,11 @@ class PinPirateClient
   end
 
   def score(data)
-    resp, data = @http.post( API_SCORE_URI, {:event => { :raw_data => data } }.to_query )
+    resp, data = @http.post( API_SCORE_URI, {:event => { :data => data.to_hex } }.to_query )
   end
 
   def event(data)
-    #nothing
+    # resp, data = @http.post( API_EVENT_URI, {:event => { :data => data.to_hex } }.to_query )
   end
 end
 

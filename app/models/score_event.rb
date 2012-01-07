@@ -6,18 +6,16 @@ class ScoreEvent < Event
   validate :slot_value
 
   def slot
-    Game.get_slot(raw_data.first)
+    Game.get_slot(data[0...2])
   end
 
   def score
-    raw_data[1..-1].map do |val|
-      (val.size == 1) ? "0#{val}" : val
-    end.join.to_i
+    data[2..-1].to_i
   end
 
   private
   def slot_value
-    errors.add(:slot, "is wrong") unless self.slot
+    errors.add(:slot, "is wrong") unless (1..4).member?(self.slot)
   end
 
   def check_game_slot

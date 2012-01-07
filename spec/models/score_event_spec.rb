@@ -4,7 +4,7 @@ describe ScoreEvent do
 
   let(:game) { create(:game) }
   let(:player) { game.player }
-  let(:score_event) { game.score_events.create :raw_data => ["12", "34", "24"] }
+  let(:score_event) { game.score_events.create :data => ["0c", "34", "24"].join }
 
   it "creates slot" do
     score_event.slot.should == 1
@@ -20,7 +20,7 @@ describe ScoreEvent do
 
   it "fails on wrong slot" do
     expect do
-      game.score_events.create! :raw_data => ["7", "34", "24"]
+      game.score_events.create! :data => ["07", "34", "24"].join
     end.to raise_error
   end
 
@@ -32,7 +32,7 @@ describe ScoreEvent do
 
   describe "#game_id" do
     context "wrong slot" do
-      let(:score_event) { game.score_events.create :raw_data => ["13", "34", "24"] }
+      let(:score_event) { game.score_events.create :data => ["0b", "34", "24"].join }
 
       it "created new game" do
         score_event.game_id.should_not == game.id

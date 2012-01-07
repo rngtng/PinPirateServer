@@ -37,8 +37,10 @@ describe Game do
 
     it "doesn't update updated_at" do
       expect do
-        game.finish!
-      end.to_not change { game.reload.updated_at }
+        expect do
+          game.finish!
+        end.to change { game.reload.finished_at }.from(nil)
+      end.to change { game.reload.updated_at }
     end
 
     it "sets finished_at" do
@@ -68,6 +70,20 @@ describe Game do
 
     it "is not high_score" do
       create(:game, :score => 50).should_not be_high_score
+    end
+  end
+
+  describe "#get_slot" do
+    {
+      "C"  => 1,
+      "c"  => 1,
+      "0c" => 1,
+      "0D" => 2,
+      "0F" => 4,
+    }.each do |input, should|
+      it "is #{should} for #{input}" do
+        Game.get_slot(input).should == should
+      end
     end
   end
 end

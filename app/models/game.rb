@@ -26,12 +26,7 @@ class Game < ActiveRecord::Base
   scope :not_tweeted, where("twittered_at IS NULL")
 
   def self.get_slot(slot)
-    mappings = {
-      "1"  => 1, "2"  => 2, "3"  => 3, "4"  => 4,
-      "C"  => 1, "D"  => 2, "E"  => 3, "F"  => 4,
-      "12" => 1, "13" => 2, "14" => 3, "15" => 4,
-    }
-    mappings[slot.to_s]
+    slot.to_i(16) - 11
   end
 
   def duration
