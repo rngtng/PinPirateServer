@@ -40,7 +40,7 @@ describe Game do
         expect do
           game.finish!
         end.to change { game.reload.finished_at }.from(nil)
-      end.to change { game.reload.updated_at }
+      end.to_not change { game.reload.updated_at }
     end
 
     it "sets finished_at" do

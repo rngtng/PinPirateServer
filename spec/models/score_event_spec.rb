@@ -72,11 +72,40 @@ describe ScoreEvent do
         score_event.game.score == 3424
       end
 
-       it "updates not old game highscore" do
-         expect do
-           score_event
-         end.to_not change { game.score }
-       end
+      it "updates not old game highscore" do
+        expect do
+          score_event
+        end.to_not change { game.score }
+      end
+
+      it "finishes old game highscore" do
+        expect do
+          score_event
+        end.to change { game.reload.finished_at }.from(nil)
+      end
     end
   end
+
+   describe "check_game_score" do
+     let(:score) { 5000 }
+
+     before do
+       game.update_attributes(:score => score)
+     end
+
+     it "finishes all games asap one is done" do
+        game2 = create(:game, :slot => 2)
+
+        expect do
+          score_event
+        end.to change { game2.reload.finished_at }.from(nil)
+     end
+
+     #Double tested
+     it "doesn't update updated_at" do
+       expect do
+         score_event
+       end.to_not change { game.reload.updated_at }
+     end
+   end
 end

@@ -8,22 +8,24 @@ class Game < ActiveRecord::Base
 
   # validates :slot, :presence => true
 
-  scope :current, lambda { |*slot|
-    with_slot(*slot).not_finished.latest
-  }
-
-  scope :latest, lambda { |*slot|
-    order("updated_at DESC").limit(1)
-  }
+  scope :not_finished, where("finished_at IS NULL")
+  scope :finished, where("finished_at IS NOT NULL")
+  scope :not_tweeted, where("twittered_at IS NULL")
 
   scope :with_slot, lambda { |*slot|
     slot = [1,2,3,4] if slot.empty?
     where(:slot => slot)
   }
 
-  scope :not_finished, where("finished_at IS NULL")
-  scope :finished, where("finished_at IS NOT NULL")
-  scope :not_tweeted, where("twittered_at IS NULL")
+  scope :running, lambda { |*slot|
+    with_slot(*slot).not_finished
+  }
+
+  scope :latest, order("updated_at DESC").limit(1)
+
+  scope :current, lambda { |*slot|
+    running(*slot).latest
+  }
 
   def self.get_slot(slot)
     slot.to_i(16) - 11

@@ -7,6 +7,8 @@ Bundler.require(:client)
 require "net/http"
 require "optparse"
 
+require_relative "../lib/pin_pirate_client"
+
 @port       = "/dev/tty.usbserial-A7006Qaq"
 @client_env = :production
 @baud_rate  = 115200
@@ -15,75 +17,12 @@ OptionParser.new do |opts|
   opts.banner = "Usage: script/client [options] [port]"
   opts.on("-e",  "--env=CLIENT_ENV", "Client Environment (production/development)") { |env| @client_env = env.to_sym }
   opts.on("-d",  "--development", "Set Client Environment to development") { |env| @client_env = :development }
-  opts.on("-b",  "--baud=BAUD_RATE", "Baud Rate (production/development)") { |baud| @baud_rate = baud.to_i }
+  opts.on("-b",  "--baud=BAUD_RATE", "Baud Rate") { |baud| @baud_rate = baud.to_i }
 end.parse!
 
 @port = ARGV.first if ARGV.any?
 
 puts "Listening on port #{@port} at #{@baud_rate}, posting to #{@client_env}"
-
-class Hash
-  def to_query(namespace = nil)
-    collect do |key, value|
-      value.to_query(namespace ? "#{namespace}[#{key}]" : key)
-    end.sort * '&'
-  end
-end
-
-class Array
-  def to_query(key)
-    collect { |value| value.to_query("#{key}[]") } * '&'
-  end
-
-  def to_hex
-    map do |d|
-      "%02x" %
-    end.join
-  end
-end
-
-class String
-  def to_query(key)
-    "#{key}=#{self}"
-  end
-end
-
-class PinPirateClient
-  API_SCORE_URI = "/games/1/scores"
-  API_URL = {
-    :production  => "http://p.warteschlange.de:8080",
-    :development => "http://localhost:3000",
-  }
-
-  def initialize(env = nil)
-    @url = URI.parse(API_URL[env || :production])
-    @http = Net::HTTP.new(@url.host, @url.port)
-  end
-
-  def process(size, *data)
-    return unless data.any?
-
-    if size.to_i(16) != data.size
-      raise "Wrong size: #{size.to_i(16)} - #{data.inspect}"
-    end
-
-    case data.first
-      when "C", "D", "E", "F"
-        self.score(data)
-      else
-        self.event(data)
-    end
-    data
-  end
-
-  def score(data)
-    resp, data = @http.post( API_SCORE_URI, {:event => { :data => data.to_hex } }.to_query )
-  end
-
-  def event(data)
-    # resp, data = @http.post( API_EVENT_URI, {:event => { :data => data.to_hex } }.to_query )
-  end
-end
 
 @client = PinPirateClient.new
 

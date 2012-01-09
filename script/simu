@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "bundler/setup"
+Bundler.require(:client)
+
+require "net/http"
+require "optparse"
+
+@port       = "/dev/tty.usbserial-A1004cfc" #"/dev/tty.usbserial-A7006Qaq"
+@baud_rate  = 9600
+@data_file  = "spec/fixtures/game.log"
+@client_env = nil
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: script/client [options] [port]"
+  opts.on("-e",  "--env=CLIENT_ENV", "Client Environment)") { |env| @client_env = env.to_sym }
+  opts.on("-b",  "--baud=BAUD_RATE", "Baud Rate") { |baud| @baud_rate = baud.to_i }
+  opts.on("-d",  "--data=FILE_NAME", "Data file name") { |file| @data_file = file }
+end.parse!
+
+@port = ARGV.first if ARGV.any?
+
+class ArduinoClient
+  def initialize(port, baud_rate)
+    @serial_port = SerialPort.open(port, baud_rate)
+  end
+
+  def process(size, *data)
+    @serial_port.write size.chr
+
+    data.each do |date|
+      print "#{date},"
+      @serial_port.write date.to_i(16).chr
+    end
+    @serial_port.write 0xFF.chr
+    puts
+  end
+end
+
+@client = if @client_env
+  require_relative "../lib/pin_pirate_client"
+  PinPirateClient.new(@client_env)
+else
+  puts "Sending to port #{@port} at #{@baud_rate}"
+  ArduinoClient.new(@port, @baud_rate)
+end
+
+File.open(@data_file, "r") do |file|
+  file.each_line do |line|
+    line = line.split(",")
+    @client.process(line.size.to_s(16), *line)
+
+    sleep 0.1 #((rand 200) / 100.0)
+  end
+end
