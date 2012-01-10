@@ -19,3 +19,10 @@ Dependencies: http://gemnasium.com/rngtng/PinPirateServer.png
   * show ball (easy on wrong slot)
   * test Twitter
   * chart link top right corner
+
+
+  * end Nabaztag endpoint to load bootcode
+  * add Nabaztag response, send back message
+  * bootcode add RFID
+
+

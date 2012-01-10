@@ -20,7 +20,7 @@ class Array
 end
 
 class PinPirateClient
-  API_SCORE_URI = "/games/1/scores"
+  API_EVENT_URI = "/events"
   API_URL = {
     :production  => "http://p.warteschlange.de:8080",
     :development => "http://localhost:3000",
@@ -31,27 +31,8 @@ class PinPirateClient
     @http = Net::HTTP.new(@url.host, @url.port)
   end
 
-  def process(size, *data)
-    return unless data.any?
-
-    if size.to_i(16) != data.size
-      raise "Wrong size: #{size.to_i(16)} - #{data.inspect}"
-    end
-
-    case data.first
-      when "C", "D", "E", "F"
-        self.score(data)
-      else
-        self.event(data)
-    end
-    data
-  end
-
-  def score(data)
+  def process(*data)
     resp, data = @http.post( API_SCORE_URI, {:event => { :data => data.to_hex } }.to_query )
   end
 
-  def event(data)
-    # resp, data = @http.post( API_EVENT_URI, {:event => { :data => data.to_hex } }.to_query )
-  end
 end

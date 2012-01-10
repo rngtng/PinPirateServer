@@ -27,7 +27,7 @@ class ArduinoClient
   end
 
   def process(size, *data)
-    @serial_port.write size.chr
+    @serial_port.write size.to_i(16).chr
 
     data.each do |date|
       print "#{date},"
@@ -48,9 +48,9 @@ end
 
 File.open(@data_file, "r") do |file|
   file.each_line do |line|
-    line = line.split(",")
+    line = line.strip.split(",")
     @client.process(line.size.to_s(16), *line)
 
-    sleep 0.1 #((rand 200) / 100.0)
+    sleep 0.2 #((rand 200) / 100.0)
   end
 end
