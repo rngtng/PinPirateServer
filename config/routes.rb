@@ -1,12 +1,10 @@
 Pinpirate::Application.routes.draw do
   resources :charts, :only => [:index]
 
-  resources :players, :only => [:update]
+  resources :players, :only => [:create, :update]
+  resources :events, :only => [:create]
 
-  resources :games, :only => [:index, :show] do
-    resources :events, :only => [:create]
-    resources :score_events, :only => [:create], :path => 'scores'
-  end
+  resources :games, :only => [:index, :show]
 
   root :to => "games#index"
 end

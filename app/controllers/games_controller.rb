@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
 
   def index
-    @game  = Game.current.first || Game.new(:player => Player.last)
+    @game  = Game.latest.first || Game.new(:player => Player.last)
     @games = Game.finished.order("score DESC").limit(30).all
 
     if request.xhr?

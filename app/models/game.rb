@@ -17,15 +17,7 @@ class Game < ActiveRecord::Base
     where(:slot => slot)
   }
 
-  scope :running, lambda { |*slot|
-    with_slot(*slot).not_finished
-  }
-
   scope :latest, order("updated_at DESC").limit(1)
-
-  scope :current, lambda { |*slot|
-    running(*slot).latest
-  }
 
   def self.get_slot(slot)
     slot.to_i(16) - 11

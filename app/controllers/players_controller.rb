@@ -1,6 +1,9 @@
 class PlayersController < ApplicationController
 
   respond_to :json
+  def create
+  end
+
   def update
     @player     = Player.find(params[:id])
     @new_player = Player.find_or_build_by(:name => params[:player][:name])

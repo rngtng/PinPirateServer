@@ -6,28 +6,27 @@ describe Game do
     Game.create.should_not be_new_record
   end
 
-  describe "#current" do
+  describe "#latest" do
+    let!(:older_game) { create(:game, :updated_at => 3.hours.ago) }
     let!(:game) { create(:game) }
 
-    it "returns current" do
-      game2 = create(:game, :updated_at => 3.hours.ago)
-      Game.current.first.should == game
+    it "returns latest" do
+      Game.latest.first.should == game
     end
 
-    it "returns current" do
-      game2 = create(:game, :updated_at => 3.hours.from_now)
-      Game.current.first.should == game2
+    it "returns newer_game" do
+      older_game.update_attribute(:updated_at, 3.hours.from_now)
+      Game.latest.first.should == older_game
     end
 
-    it "returns current finished aware" do
-      game2 = create(:game, :updated_at => 3.hours.ago)
+    it "returns latest finished aware" do
       game.finish!
-      Game.current.first.should == game2
+      Game.not_finished.latest.first.should == older_game
     end
 
-    it "returns current slot aware" do
-      game2 = create(:game, :updated_at => 3.hours.ago, :slot => 2)
-      Game.current(2).first.should == game2
+    it "returns latest slot aware" do
+      older_game.update_attribute( :slot, 2)
+      Game.with_slot(2).latest.first.should == older_game
     end
   end
 
