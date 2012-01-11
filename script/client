@@ -4,35 +4,70 @@ require "rubygems"
 require "bundler/setup"
 Bundler.require(:client)
 
-require "net/http"
 require "optparse"
 
-require_relative "../lib/pin_pirate_client"
+API_URL = {
+  "production"  => "http://p.warteschlange.de:8080",
+  "development" => "http://localhost:9090",
+}
 
-@port       = "/dev/tty.usbserial-A7006Qaq"
-@client_env = :production
+@from       = "/dev/tty.usbserial-A7006Qaq"
+@to         = "production"
 @baud_rate  = 115200
+@sleep      = 0
 
 OptionParser.new do |opts|
-  opts.banner = "Usage: script/client [options] [port]"
-  opts.on("-e",  "--env=CLIENT_ENV", "Client Environment (production/development)") { |env| @client_env = env.to_sym }
-  opts.on("-d",  "--development", "Set Client Environment to development") { |env| @client_env = :development }
-  opts.on("-b",  "--baud=BAUD_RATE", "Baud Rate") { |baud| @baud_rate = baud.to_i }
+  opts.banner = "Usage: script/client [options]"
+  opts.on("-f",  "--from=INTPUT",    "Input: either File, STDIN or Serial (default)")        { |from| @from = from }
+  opts.on("-t",  "--to=OUPUT",       "Output: either File, STDOUT, Serial or API (default)") { |to|   @to = to }
+  opts.on("-b",  "--baud=BAUD_RATE", "Baud Rate: #{@baud_rate} (default) ")                  { |baud| @baud_rate = baud.to_i }
+  opts.on("-s",  "--sleep=SLEEP",    "Sleep Rate: #{@sleep} (default)")                      { |sleep| @sleep = sleep.to_f }
 end.parse!
 
-@port = ARGV.first if ARGV.any?
+# sleep 0.2 #((rand 200) / 100.0)
 
-puts "Listening on port #{@port} at #{@baud_rate}, posting to #{@client_env}"
+#### Set INPUT Stream
+@from = if @from.downcase  == 'stdin'
+  print "Reading from STDIN, "
+  STDIN
 
-@client = PinPirateClient.new
+elsif @from.index("/dev/") == 0
+  print "Listening on port #{@from} at #{@baud_rate}, "
+  SerialPort.open(@from, @baud_rate)
 
-SerialPort.open(@port, @baud_rate) do |sp|
-  sp.each_line do |line|
-    begin
-      data = @client.process(*line.strip.split(","))
-      puts data.inspect if data
-    rescue => e
-      puts e.message
-    end
+else
+  print "Reading from file #{@from}, "
+  File.open(@from, "r")
+
+end
+
+#### Set OUTPUT Stream
+@to = if @to.downcase == 'stdout'
+  puts "writing to STDOUT"
+  STDOUT
+
+elsif API_URL[@to]
+  puts "posting to #{API_URL[@to]}"
+  require_relative "../lib/api_client"
+  ApiClient.new(API_URL[@to])
+
+elsif @to.index("/dev/") == 0
+  puts "sending to port #{@to} at #{@baud_rate}"
+  require_relative "../lib/serial_client"
+  SerialClient.new(@to, @baud_rate)
+
+else
+  puts "writing to file #{@to}"
+  File.open(@to, "w")
+
+end
+
+#### Process
+@from.each_line do |line|
+  begin
+    @to.write(line)
+    sleep @sleep if @sleep > 0
+  rescue => e
+    puts e.message
   end
 end
