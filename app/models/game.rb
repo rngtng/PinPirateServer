@@ -17,7 +17,7 @@ class Game < ActiveRecord::Base
     where(:slot => slot)
   }
 
-  scope :latest, order("updated_at DESC").limit(1)
+  scope :latest, order("updated_at DESC, id DESC").limit(1)
 
   def self.get_slot(slot)
     slot.to_i(16) - 11

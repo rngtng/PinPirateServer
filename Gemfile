@@ -43,6 +43,7 @@ group :test do
   gem 'faker'
   gem 'factory_girl_rails'
 
+  gem 'capybara'
   # gem 'watchr'
   # gem 'simplecov'
 end
