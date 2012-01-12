@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120107154015) do
+ActiveRecord::Schema.define(:version => 20120112222719) do
 
   create_table "events", :force => true do |t|
     t.integer  "game_id"
     t.string   "type"
-    t.string   "data"
+    t.string   "data",       :default => "", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20120107154015) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "twitter_handle"
+    t.string   "rfid_id"
   end
 
 end

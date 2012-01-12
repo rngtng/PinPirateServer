@@ -16,6 +16,13 @@ describe EventsController do
       post :create, :event => { :data => ["02", "0A"].join }
       response.status.should == 400
     end
+
+    context "jsp" do
+      it "return ok" do
+        post :create, :event => { :data => ["02", "0A"].join }, :format => :jsp
+        response.status.should == 200
+      end
+    end
   end
 
   context "ScoreEvent" do

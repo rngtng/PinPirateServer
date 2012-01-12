@@ -9,19 +9,22 @@ class EventsController < ApplicationController
     end
 
     @event =  if (size.to_i(16) == 5) && (1..4).member?(Game.get_slot(data.first))
+      @color = [0xFF, 0xFF, 0x00]
       ScoreEvent.create!(:data => data.join)
     else
+      @color = [0x00, 0x00, 0xFF]
       Event.create!(:data => data.join)
     end
 
     respond_to do |format|
-      format.json { render :json => @event.to_json(:only => [:id, :game_id], :methods => [:score]) }
-      format.jsp { send_data NabaztagMessage::reboot, :status => 200 }
+      format.jsp  { send_data Nabaztag::led(3, @color), :status => 200 }
+      format.any(:html, :json) { render :json => @event.to_json(:only => [:id, :game_id], :methods => [:score]) }
     end
+
   rescue => e
     respond_to do |format|
-      format.json { render :json => {}, :status => 400 }
-      format.jsp { send_data NabaztagMessage::ok, :status => 200 }
+      format.jsp  { send_data Nabaztag::error, :status => 200 }
+      format.any(:html, :json) { render :json => {}, :status => 400 }
     end
   end
 end

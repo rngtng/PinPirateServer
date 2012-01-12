@@ -1,7 +1,15 @@
-class NabaztagMessage
+class Nabaztag
   class << self
+    def led(*data)
+      message(2, *data)
+    end
+
     def ok
       message 3
+    end
+
+    def error
+      message 8
     end
 
     def reboot
