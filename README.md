@@ -15,14 +15,18 @@ Dependencies: http://gemnasium.com/rngtng/PinPirateServer.png
   * filter highscore table just player
   * show current games
   * redesign
-  * edit mode
+  * edit mode (prevent edit)
   * show ball (easy on wrong slot)
   * test Twitter
   * chart link top right corner
 
-
-  * end Nabaztag endpoint to load bootcode
   * add Nabaztag response, send back message
   * bootcode add RFID
 
+  * add integration test rename player
+  * add integration test charts
+  * add integration twitter
 
+### Done
+   * end Nabaztag endpoint to load bootcode
+   * add integration test

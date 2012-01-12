@@ -14,8 +14,14 @@ class EventsController < ApplicationController
       Event.create!(:data => data.join)
     end
 
-    render :json => @event.to_json(:only => [:id, :game_id], :methods => [:score])
+    respond_to do |format|
+      format.json { render :json => @event.to_json(:only => [:id, :game_id], :methods => [:score]) }
+      format.jsp { send_data NabaztagMessage::reboot, :status => 200 }
+    end
   rescue => e
-    render :json => {}, :status => 400
+    respond_to do |format|
+      format.json { render :json => {}, :status => 400 }
+      format.jsp { send_data NabaztagMessage::ok, :status => 200 }
+    end
   end
 end

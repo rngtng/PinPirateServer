@@ -1,6 +1,14 @@
 class PlayersController < ApplicationController
+  skip_before_filter :verify_authenticity_token, :only => [:show]
 
   respond_to :json
+
+  def show
+    respond_to do |format|
+      format.jsp { send_data NabaztagMessage::message(2, 255, 0, 255), :status => 200 }
+    end
+  end
+
   def create
   end
 
