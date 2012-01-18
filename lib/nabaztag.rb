@@ -23,8 +23,8 @@ class Nabaztag
 
     private
 
-    def full_message(data)
-      send_byte_array [0x7F] + Array(data) + [0xFF, 0x0A]
+    def full_message(*data)
+      send_byte_array [0x7F] + data.flatten + [0xFF, 0x0A]
     end
 
     def send_byte_array(byte_array)
