@@ -6,59 +6,29 @@ class VlController < ApplicationController
 
   def debug
     respond_to do |format|
-      format.jsp { send_data msg3, :status => 200 }
+      format.jsp { send_nabaztag msg }
     end
   end
 
   private
   def msg
-    Nabaztag::send(:full_message,
-      m(20,0,255),
-      m(21,0,255),
-      m(22,0,255),
-      m(23,0,255),
-      m(24,0,255),
-    )
+    {
+      LED_L0 => 0, #[0,0xFF,0,0xFF,0,0xFF,0,0xFF,0,0xFF]
+      LED_L1 => 0, #[0xFF,0,0,0,0xFF,0x00,0x00,0x00,0xFF,0x00,0x00,0x00,0xFF],
+      LED_L2 => 0, #[0xFF,0,0,0,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00],
+      LED_L3 => 0, #[0xFF,0,0,0,0x00,0x00,0xFF,0x00,0x00,0x00,0xFF,0x00,0x00],
+      LED_L4 => 0,
+      EAR_LL => F,
+      EAR_LR => B,
+
+      LED_0 => 0xFF,
+      LED_1 => 0,
+      LED_2 => 0,
+      LED_3 => 0,
+      LED_4 => 0,
+      EAR_L => 0, #[F,B,F,B,F,B,F,B,F,B,F,B]
+      EAR_R => 0, #[0,0,0,0,0,0,0,0,0,0,0,0,F,B,F,B,F,B,F,B,F,B,F,B]
+    }
   end
-
-  def msg2
-    Nabaztag::send(:full_message,
-      m(20,0,10,20,30,40,50,60,70,80,90),
-      m(21,255,255,0,0,0,0,0,0),
-      m(22,0,0,255,255),
-      m(23,0,0,0,0,255,255,0,0),
-      m(24,0),
-    )
-  end
-
-  def msg3
-    Nabaztag::send(:full_message,
-      m(20,0),
-      #m(21,0),
-      m(22,0),
-      m(23,0),
-      m(24,0),
-
-      m(25,1),
-      m(26,2),
-
-      m(30,255),
-      m(31,1),
-
-      m(35,0,2,0,2,0,2,0,2,0,2),
-      m(36,1,1,1,1,1,1,1,1,1,1,1,0,2,0,2,0,2,0,2,0),
-      #m(24,0,0,0,0,0,0,0,0,1,1,1,1,1,1),
-      #m(25,0,255,0,255,0,255,0,255,0,255),
-      #m(21,0xFF,0,0,0,0xFF,0x00,0x00,0x00,0xFF,0x00,0x00,0x00,0xFF),
-      #m(22,0xFF,0,0,0,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00),
-      #m(23,0xFF,0,0,0,0x00,0x00,0xFF,0x00,0x00,0x00,0xFF,0x00,0x00)
-    )
-  end
-
-  def m(cmd, *data)
-    data = data.flatten.compact
-    [cmd] + [0x00, 0x00, data.size] + data
-  end
-
 end
 

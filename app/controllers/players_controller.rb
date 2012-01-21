@@ -1,23 +1,18 @@
 class PlayersController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:update]
 
-  respond_to :json
+  respond_to :html, :json
 
   def update
     respond_to do |format|
       format.jsp do
-        @message = if params[:id] == "d0021a0353030830"
-          Nabaztag::reboot
+        @message = if @new_player = Player.find_by_rfid_id(params[:id])
+          @game  = Game.latest.first.update_attributes(:player => @new_player)
+          { LED_0 => 0xFF00FF }
         else
-          if @new_player = Player.find_by_rfid_id(params[:id])
-            @game  = Game.latest.first.update_attributes(:player => @new_player)
-            Nabaztag::led(255, 0, 255)
-          else
-            Nabaztag::error
-          end
+          ERROR
         end
-
-        send_data @message, :status => 200
+        send_nabaztag @message
       end
 
       format.any(:html, :json) do
@@ -29,6 +24,5 @@ class PlayersController < ApplicationController
         respond_with @new_player
       end
     end
-
   end
 end
