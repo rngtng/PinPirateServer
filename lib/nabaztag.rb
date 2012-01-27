@@ -1,6 +1,7 @@
 module Nabaztag
   module  Message
     module Commands
+      LOG    = 2
       OK     = 3
       ERROR  = 8
       REBOOT = 9
@@ -23,6 +24,9 @@ module Nabaztag
 
       F = 1
       B = 2
+
+      def rgb(values)
+      end
     end
 
     module Helpers

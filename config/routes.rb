@@ -8,8 +8,9 @@ Pinpirate::Application.routes.draw do
 
   resources :games, :only => [:index, :show]
 
-  get "/bc"    => "vl#bc"
-  get "/debug" => "vl#debug"
+  get "/bc"     => "vl#bc"
+  post "/log"    => "vl#log"
+  get "/button" => "vl#button"
 
   root :to => "games#index"
 end
