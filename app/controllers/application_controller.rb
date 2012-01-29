@@ -1,9 +1,13 @@
+require 'nabaztag_hack_kit/message'
+require 'nabaztag_hack_kit/message/api'
+
 class ApplicationController < ActionController::Base
-  include Nabaztag::Message::Commands
+  include NabaztagHackKit::Message::Api
+  # include NabaztagHackKit::Message::Helper
 
   protect_from_forgery
 
   def send_nabaztag(*data)
-    send_data Nabaztag::Message.build(*data).pack('c*'), :status => 200
+    send_data NabaztagHackKit::Message.build(*data), :status => 200
   end
 end

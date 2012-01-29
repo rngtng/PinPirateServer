@@ -32,8 +32,10 @@ gem 'rspec-rails', :group => [:development, :test]
 gem 'spin', :group => [:development, :test]
 
 #in place editing
-#gem 'best_in_place'
-gem "best_in_place", :git => "git://github.com/bernat/best_in_place.git"
+gem 'best_in_place'
+
+# Nabaztag
+gem "nabaztag_hack_kit" #, :path => "../NabaztagHackKit"
 
 group :test do
   #fixtures

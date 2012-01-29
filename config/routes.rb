@@ -1,3 +1,5 @@
+require 'nabaztag_hack_kit/server'
+
 Pinpirate::Application.routes.draw do
 
   resources :charts, :only => [:index]
@@ -8,9 +10,9 @@ Pinpirate::Application.routes.draw do
 
   resources :games, :only => [:index, :show]
 
-  get "/bc"     => "vl#bc"
-  post "/log"    => "vl#log"
-  get "/button" => "vl#button"
+  get "button" => "games#button"
+
+  mount NabaztagHackKit::Server.new => "/"
 
   root :to => "games#index"
 end

@@ -1,11 +1,3 @@
-GIT
-  remote: git://github.com/bernat/best_in_place.git
-  revision: 47a908aa4f7bbe04e8439b84a7928ac88a3e6a35
-  specs:
-    best_in_place (1.0.4)
-      jquery-rails
-      rails (~> 3.1)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -37,6 +29,9 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.0)
+    best_in_place (1.0.6)
+      jquery-rails
+      rails (~> 3.1)
     builder (3.0.0)
     capistrano (2.9.0)
       highline
@@ -79,6 +74,8 @@ GEM
     mime-types (1.17.2)
     multi_json (1.0.4)
     mysql2 (0.3.11)
+    nabaztag_hack_kit (0.0.2)
+      sinatra
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -91,6 +88,8 @@ GEM
     rack (1.4.0)
     rack-cache (1.1)
       rack (>= 0.4)
+    rack-protection (1.2.0)
+      rack
     rack-ssl (1.3.2)
       rack
     rack-test (0.6.1)
@@ -138,6 +137,10 @@ GEM
       multi_json (~> 1.0.4)
       rubyzip
     serialport (1.0.4)
+    sinatra (1.3.2)
+      rack (~> 1.3, >= 1.3.6)
+      rack-protection (~> 1.2)
+      tilt (~> 1.3, >= 1.3.3)
     spin (0.4.2)
     sprockets (2.1.2)
       hike (~> 1.2)
@@ -156,7 +159,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  best_in_place!
+  best_in_place
   capistrano
   capybara
   factory_girl_rails
@@ -165,6 +168,7 @@ DEPENDENCIES
   jquery-rails
   json
   mysql2
+  nabaztag_hack_kit
   rails (= 3.2.0)
   rspec-rails
   sass-rails (~> 3.2.3)

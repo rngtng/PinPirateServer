@@ -1,4 +1,7 @@
+require 'nabaztag_hack_kit/message/helper'
+
 class GamesController < ApplicationController
+  include NabaztagHackKit::Message::Helper
 
   def index
     @game  = Game.latest.first || Game.new(:player => (Player.last || Player.new))
@@ -15,4 +18,13 @@ class GamesController < ApplicationController
     end
     render :json => @games.to_json(:only => [:id, :player_id])
   end
+
+  def button
+    respond_to do |format|
+      format.jsp do
+        send_nabaztag fire
+      end
+    end
+  end
+
 end
