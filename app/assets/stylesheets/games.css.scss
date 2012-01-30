@@ -7,118 +7,167 @@ $dotH: 393;
 $dotWidth: 7 * 7;
 $dotHeight: 7 * 7;
 $dotOffX: 10;
-$dotOffY: 14;
-$dotScale: 2;
+$dotOffY: 14.2;
+$dotScale: 1;
 $pageWidth: 8 * $dotWidth * $dotScale;
 
-@mixin dot_pos($x, $y) {
-  background-position: -#{$dotScale * ($dotOffX + $x * $dotWidth)}px -#{$dotScale * ($dotOffY + $y * ($dotOffY + $dotHeight))}px;
+@mixin dot_pos($x, $y, $scale) {
+  background-position: -#{$scale * ($dotOffX + $x * $dotWidth)}px -#{$scale * ($dotOffY + $y * ($dotOffY + $dotHeight))}px;
 }
 
-#games {
-  #scores {
-    border: 1px solid #222;
-    padding: 5px;
-    //border: 1px solid red;
-    width: #{$pageWidth + 40}px;
-    display: block;
-    height: #{40 + $dotScale * $dotHeight}px;
-    margin: 20px auto;
-  }
+@mixin game($scale) {
+  // border: 1px solid green;
+  float: left;
+  // display: inline;
+  padding: 5px;
+
   .player {
     .name {
-      font-size: 25px;
+      font-size: #{$scale * 25}px;
       color: #EEE;
       float: left; }
 
     .slot {
-      font-size: 15px;
-      color: #EEE; }
-
+      font-size: #{$scale * 15}px;
+      color: #EEE; } }
 
     // .twitter {
     //   font-size: 18px;
     //   color: #EEE; }
+  .score {
+    margin-top: #{$scale * 15}px;
 
-    .score {
+    .number {
       display: none;
-      font-size: 25px;
+      font-size: #{$scale * 25}px;
       color: #EEE; }
-
-    .display {
-      margin-top: 15px; }
 
     .digits {
       clear: left;
       span {
         // border: 1px solid red;
-        width: #{$dotScale * $dotWidth}px;
-        height: #{$dotScale * $dotHeight}px;
+        width: #{$scale * $dotWidth}px;
+        height: #{$scale * $dotHeight}px;
         text-decoration: none;
         display: block;
         float: left;
         background: asset-url("dot.jpeg", image) 0 0;
-        background-size: #{$dotScale * $dotW}px #{$dotScale * $dotH}px;
+        background-size: #{$scale * $dotW}px #{$scale * $dotH}px;
         margin: 1px;
-        &#d1, &#d4,  {
-          margin-right: 10px; }
+        &p1, &p4,  {
+          margin-right: #{$scale * 10}px; }
         &.d1 {
-          @include dot_pos(0, 4); }
+          @include dot_pos(0, 4, $scale); }
         &.d2 {
-          @include dot_pos(1, 4); }
+          @include dot_pos(1, 4, $scale); }
         &.d3 {
-          @include dot_pos(2, 4); }
+          @include dot_pos(2, 4, $scale); }
         &.d4 {
-          @include dot_pos(3, 4); }
+          @include dot_pos(3, 4, $scale); }
         &.d5 {
-          @include dot_pos(4, 4); }
+          @include dot_pos(4, 4, $scale); }
         &.d6 {
-          @include dot_pos(0, 5); }
+          @include dot_pos(0, 5, $scale); }
         &.d7 {
-          @include dot_pos(1, 5); }
+          @include dot_pos(1, 5, $scale); }
         &.d8 {
-          @include dot_pos(2, 5); }
+          @include dot_pos(2, 5, $scale); }
         &.d9 {
-          @include dot_pos(3, 5); }
+          @include dot_pos(3, 5, $scale); }
         &.d0 {
-          @include dot_pos(4, 5); }
+          @include dot_pos(4, 5, $scale); }
       }
     }
   }
+}
 
-  table {
-    //border: 1px solid red;
-    background-color: #aaa;
-    width: #{0.8 * $pageWidth}px;
-    margin: auto;
+@mixin tabs {
+  width: 800px;
+  padding: 0px;
+  background: none;
+  border-width: 0px;
+  margin: #{$dotScale * 20}px auto;
 
-    tbody {
-      background-color: #ddd;
-      height: 500px;
-      overflow: auto; }
+  .ui-tabs-nav {
+    padding-left: 0px;
+    background: transparent;
+    border-width: 0px 0px 1px 0px;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px; }
+}
 
-    th, td {
-      padding: 3px 10px;
-      width: 25%;
+#games {
+  ul, li {
+    padding: 0;
+    list-style-type: none;
+  }
 
-      &.name {
-        width: 300px;
-        font-weight: bold; }
-      &.score {
-        width: 200px;
-        font-weight: bold; }
-      &.date {
-        width: 165px; }
-      &.duration {
-        width: 85px; }
+  #scores {
+    // border: 1px solid red;
+    // padding: #{$dotScale * 5}px;
+    // text-align: center;
+    border: 1px solid #222;
+    padding: 0;
+    width: #{800}px;
+    height: #{180 + $dotScale * $dotHeight}px;
+    margin: 50px auto;
 
+    .game {
+      margin: 170px 0px 0px 0px;
+      @include game(0.6); }
+
+    .game.current {
+      margin: 0 0px 0px 95px;
+      position: absolute;
+      @include game(1.5); }
+  }
+
+  #score-table {
+    @include tabs;
+    // margin-top: 50px;
+
+    li {
+      float: left;
+      width: 200px;
+      text-align: center;
+    }
+
+    table {
+      //border: 1px solid red;
+      thead {
+        background-color: #003147;
       }
 
-    td.score {
-      color: green;
-      text-align: right;
-      padding-right: 40px; }
+      tbody {
+        // background-color: #ddd;
+        height: 500px;
+        overflow: auto; }
 
-    thead > tr, tbody {
-      width: 100%;
-      display:block; } } }
+      th, td {
+        padding: 3px 10px;
+        width: 25%;
+
+        &.name {
+          width: 300px;
+          font-weight: bold; }
+        &.score {
+          width: 200px;
+          font-weight: bold; }
+        &.date {
+          width: 165px; }
+        &.duration {
+          width: 85px; }
+
+        }
+
+      td.score {
+        color: green;
+        text-align: right;
+        padding-right: 40px; }
+
+      thead > tr, tbody {
+        width: 100%;
+        display:block; } }
+  }
+}

@@ -1,0 +1,11 @@
+%li.game{:id => "slot#{game.slot}", :class => "#{'current' if game.slot == 1}"}
+  .player
+    .name= best_in_place game.player, :name
+    .slot= game.slot
+  .score
+    .number
+      = number_with_delimiter(game.score)
+    .digits
+      - 8.times do |cnt|
+        - digit = game.score_s[cnt]
+        %span{:class => "d#{digit} p#{cnt}"}

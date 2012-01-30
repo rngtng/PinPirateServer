@@ -1,25 +1,26 @@
-#games{:data => { :"games-path" => games_path, :"pull-time" => 1000.seconds } }
+#games{:data => { :"games-path" => games_path, :"pull-time" => 1.seconds } }
 
-  #scores
-    #player1.player
-      .name= best_in_place @game.player, :name
-      .slot= @game.slot
-      .display
-        .score= number_with_delimiter(@game.score)
-        .digits
-          - 8.times do |cnt|
-            - digit = @game.score_s[cnt]
-            %span{:class => "d#{digit}", :id => "d#{cnt}"}
+  %ul#scores
+    - @latest_games.each do |game|
+      = render "running_game", :game => game
 
-  %br
+  -# http://jqueryui.com/demos/tabs/#default
+  #score-table
+    %ul
+      %li
+        = link_to "Daily HighScore", "#highscores", :title => "highscores"
+      %li
+        = link_to "Alltime HighScore", games_path(:a => 5), :title => "highscores"
+      %li
+        = link_to "Top Players", games_path(:a => 3), :title => "highscores"
 
-  %table
-    %thead
-      %tr
-        %th.name Player
-        %th.score Score
-        %th.date Date
-        %th.duration Duration
+    %table
+      %thead
+        %tr
+          %th.name Player
+          %th.score Score
+          %th.date Date
+          %th.duration Duration
 
-    %tbody
-      = render @games
+      %tbody#highscores
+        = render @games
