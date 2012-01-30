@@ -6,7 +6,7 @@ require 'bundler/capistrano'
 #require 'new_relic/recipes'
 
 set :application, "pinpirate"
-set :host, "p.warteschlange.de"
+set :host, "warteschlange.de"
 
 set :use_sudo, false
 set :user, 'ssh-21560'

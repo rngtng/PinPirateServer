@@ -7,7 +7,7 @@ Bundler.require(:client)
 require "optparse"
 
 API_URL = {
-  "production"  => "http://p.warteschlange.de:8080",
+  "production"  => "http://warteschlange.de:9090",
   "development" => "http://localhost:9090",
 }
 
