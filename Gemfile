@@ -1,9 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.2.0'
-
 gem 'mysql2'
-
 gem 'haml'
 
 # Gems used only for assets and not required
@@ -19,9 +17,6 @@ gem 'jquery-rails'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
-# Use unicorn as the web server
-# gem 'unicorn'
-
 # Deploy with Capistrano
 gem 'capistrano', :group => :development
 
@@ -33,6 +28,8 @@ gem 'spin', :group => [:development, :test]
 
 #in place editing
 gem 'best_in_place'
+
+gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
 
 # Nabaztag
 gem "nabaztag_hack_kit" #, :path => "../NabaztagHackKit"
