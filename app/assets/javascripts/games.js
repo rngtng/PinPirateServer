@@ -2,9 +2,9 @@ var request = function(gamesPath){
   $.ajax({
     url: gamesPath,
     dataType: 'json',
-    success: function (data, status, xhr) {
-      $('#games').removeClass('scheduled');
-      updateGames(data);
+    success: function (games, status, xhr) {
+      updateSlots(games);
+      $('#slots').removeClass('scheduled');
       schedule();
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -14,11 +14,12 @@ var request = function(gamesPath){
     }
   });
 },
-updateGame = function(game){
-  var $game = $(".game.slot" + game.slot);
-  $game.find(".name form").each(function(){
-    $game.find(".name").html('<span class="best_in_place" id="best_in_place_player_1_name" data-url="/players/' + game.player.id + '" data-object="player" data-attribute="name" data-type="input">' + game.player.name + '</span>');
-    $game.find(".best_in_place").best_in_place();
+updateSlot = function(game){
+  var $slot = $(".slot#nr" + game.slot);
+  $slot.removeClass('hidden current');
+  $slot.find(".name form").each(function(){
+    $slot.find(".name").html('<span class="best_in_place" id="best_in_place_player_1_name" data-url="/players/' + game.player.id + '" data-object="player" data-attribute="name" data-type="input">' + game.player.name + '</span>');
+    $slot.find(".best_in_place").best_in_place();
   });
 
   // if( $(".player .twitter form").size() == 0 ) {
@@ -26,24 +27,30 @@ updateGame = function(game){
   //   $('#best_in_place_player_1_twitter_handle').best_in_place();
   // }
 
-  $game.find(".slot").html(game.slot).end()
-    .find(".number").html(game.score).end()
+  $slot.find(".score").html(game.score).end()
     .find(".digits span").each(function(index) {
-    var $digit = $(this),
-             d = game.score_s.substr(index, 1) || 0;
-    $digit.attr('class', "d" + d);
-  });
+      var $digit = $(this),
+      d = game.score_s.substr(index, 1) || 0;
+      $digit.attr('class', "d" + d);
+    });
 },
-updateGames = function(games){
+updateSlots = function(games){
   $.each(games, function(index, game) {
-    updateGame(game);
+    updateSlot(game);
   })
+  if( (game = games[0])) {
+    $(".slot#nr" + game.slot).addClass('current');
+    $(".no_games").addClass('hidden');
+  }
+  else {
+    $(".no_games").removeClass('hidden');
+  }
 },
 schedule = function(){
-  $('#games:not(.scheduled)').each(function(){
+  $('#slots:not(.scheduled)').each(function(){
     var gamesPath = $(this).data('games-path'),
         pullTime = $(this).data('pull-time');
-    $('#games').addClass('scheduled');
+    $('#slots').addClass('scheduled');
     window.setTimeout(function(){
       request(gamesPath);
     }, window.parseInt(pullTime) * 1000);
@@ -51,11 +58,11 @@ schedule = function(){
 };
 
 $(function(){
-  $('#games').each(function(){
-   // schedule();
+  $('#slots').each(function(){
+    schedule();
   });
 
-  var $tabs = $('#score-table').tabs();
+  var $tabs = $('#scores').tabs();
 
   //var selected = $tabs.tabs('option', 'selected'); // => 0
 

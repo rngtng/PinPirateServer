@@ -4,12 +4,19 @@ class GamesController < ApplicationController
   include NabaztagHackKit::Message::Helper
 
   def index
-    @latest_games = Game.not_finished.order("slot ASC")[0..2] || [Game.new(:player => (Player.last || Player.new))]
-
-    @games = Game.finished.order("score DESC").limit(30).all
+    @games = case params[:filter]
+      when 'daily'
+        Game.finished.where(["created_at > ?",]).order("score DESC").limit(30).all
+      when 'alltime'
+        Game.finished.order("score DESC").limit(30).all
+      when 'player'
+        Game.finished.order("score DESC").limit(30).all
+      else
+        Game.not_finished.order("updated_at DESC")
+    end
 
     if request.xhr?
-      render :json => @latest_games.to_json( :only => [:id, :score, :slot, :name, :twitter_handle], :include => [:player], :methods => [:score_s] )
+      render :json => @games.to_json( :only => [:id, :score, :slot, :name, :twitter_handle], :include => [:player], :methods => [:score_s] )
     end
   end
 

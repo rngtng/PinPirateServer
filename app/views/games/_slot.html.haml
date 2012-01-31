@@ -1,0 +1,13 @@
+- game = @games.select { |g| g.slot == slot }.first || Game.new(:slot => slot, :player => Player.new)
+
+%li.slot.hidden{:id => "nr#{slot}"}
+  .player
+    .name= best_in_place game.player, :name
+    .slot-number= slot
+  .game
+    .score
+      = number_with_delimiter(game.score)
+    .digits
+      - 8.times do |index|
+        - digit = game.score_s[index]
+        %span{:class => "d#{digit} i#{index}"}

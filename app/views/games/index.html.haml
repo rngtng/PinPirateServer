@@ -1,18 +1,20 @@
-#games{:data => { :"games-path" => games_path, :"pull-time" => 1.seconds } }
+#games
 
-  %ul#scores
-    - @latest_games.each do |game|
-      = render "running_game", :game => game
+  %ul#slots{:data => { :"games-path" => games_path, :"pull-time" => 1.seconds } }
+    - 4.times do |slot|
+      = render "slot", :slot => slot+1
+    %li.no_games
+      No Games
 
   -# http://jqueryui.com/demos/tabs/#default
-  #score-table
+  #scores
     %ul
       %li
         = link_to "Daily HighScore", "#highscores", :title => "highscores"
       %li
-        = link_to "Alltime HighScore", games_path(:a => 5), :title => "highscores"
+        = link_to "Alltime HighScore", games_path(:filter => 'alltime'), :title => "highscores"
       %li
-        = link_to "Top Players", games_path(:a => 3), :title => "highscores"
+        = link_to "Top Players", games_path(:filter => 'player'), :title => "highscores"
 
     %table
       %thead

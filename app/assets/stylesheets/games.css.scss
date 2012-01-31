@@ -15,10 +15,10 @@ $pageWidth: 8 * $dotWidth * $dotScale;
   background-position: -#{$scale * ($dotOffX + $x * $dotWidth)}px -#{$scale * ($dotOffY + $y * ($dotOffY + $dotHeight))}px;
 }
 
-@mixin game($scale) {
+@mixin slot($scale) {
   // border: 1px solid green;
-  float: left;
-  // display: inline;
+  display: inline-block;
+  text-align: left;
   padding: 5px;
 
   .player {
@@ -27,17 +27,14 @@ $pageWidth: 8 * $dotWidth * $dotScale;
       color: #EEE;
       float: left; }
 
-    .slot {
+    .slot-number {
       font-size: #{$scale * 15}px;
       color: #EEE; } }
 
-    // .twitter {
-    //   font-size: 18px;
-    //   color: #EEE; }
-  .score {
+  .game {
     margin-top: #{$scale * 15}px;
 
-    .number {
+    .score {
       display: none;
       font-size: #{$scale * 25}px;
       color: #EEE; }
@@ -54,7 +51,7 @@ $pageWidth: 8 * $dotWidth * $dotScale;
         background: asset-url("dot.jpeg", image) 0 0;
         background-size: #{$scale * $dotW}px #{$scale * $dotH}px;
         margin: 1px;
-        &p1, &p4,  {
+        &i1, &i4,  {
           margin-right: #{$scale * 10}px; }
         &.d1 {
           @include dot_pos(0, 4, $scale); }
@@ -103,29 +100,37 @@ $pageWidth: 8 * $dotWidth * $dotScale;
     list-style-type: none;
   }
 
-  #scores {
+  #slots {
     // border: 1px solid red;
     // padding: #{$dotScale * 5}px;
-    // text-align: center;
+    text-align: center;
     border: 1px solid #222;
     padding: 0;
     width: #{800}px;
     height: #{180 + $dotScale * $dotHeight}px;
     margin: 50px auto;
 
-    .game {
+    .slot {
       margin: 170px 0px 0px 0px;
-      @include game(0.6); }
+      @include slot(0.6); }
 
-    .game.current {
-      margin: 0 0px 0px 95px;
+    .slot.current {
+      margin: 0 -305px;
+      left: 50%;
       position: absolute;
-      @include game(1.5); }
+      @include slot(1.5); }
+
+    .no_games {
+      color: #FFF; }
+
+    .slot, .no_games {
+      &.hidden {
+        display: none; }
+    }
   }
 
-  #score-table {
+  #scores {
     @include tabs;
-    // margin-top: 50px;
 
     li {
       float: left;
@@ -140,7 +145,6 @@ $pageWidth: 8 * $dotWidth * $dotScale;
       }
 
       tbody {
-        // background-color: #ddd;
         height: 500px;
         overflow: auto; }
 
