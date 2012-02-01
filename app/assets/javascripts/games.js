@@ -17,10 +17,12 @@ var request = function(gamesPath){
 updateSlot = function(game){
   var $slot = $(".slot#nr" + game.slot);
   $slot.removeClass('hidden current');
-  $slot.find(".name form").each(function(){
-    $slot.find(".name").html('<span class="best_in_place" id="best_in_place_player_1_name" data-url="/players/' + game.player.id + '" data-object="player" data-attribute="name" data-type="input">' + game.player.name + '</span>');
-    $slot.find(".best_in_place").best_in_place();
-  });
+  $name = $slot.find(".name span");
+  if ($name.html().indexOf("<form") == -1) {
+    $name.attr('data-url', '/players/' + game.player.id);
+    $name.html(game.player.name);
+    $slot.find(".name").html($name.clone().best_in_place());
+  }
 
   // if( $(".player .twitter form").size() == 0 ) {
   //   $(".player .twitter").html('<span class="best_in_place" id="best_in_place_player_1_twitter_handle" data-url="/players/' + game.player.id + '" data-object="player" data-attribute="twitter_handle" data-type="input">' + game.player.twitter_handle + '</span>');
@@ -61,7 +63,7 @@ $(function(){
   $('#slots').each(function(){
     schedule();
   });
-
+  $(".best_in_place").best_in_place();
   var $tabs = $('#scores').tabs();
 
   //var selected = $tabs.tabs('option', 'selected'); // => 0

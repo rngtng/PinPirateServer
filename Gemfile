@@ -27,7 +27,7 @@ gem 'rspec-rails', :group => [:development, :test]
 gem 'spin', :group => [:development, :test]
 
 #in place editing
-gem 'best_in_place'
+gem 'best_in_place' #, :git => 'git://github.com/bernat/best_in_place.git'
 
 gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
 
