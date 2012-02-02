@@ -4,19 +4,21 @@ class GamesController < ApplicationController
   include NabaztagHackKit::Message::Helper
 
   def index
+    basic_sql = Game.finished.limit(30).order("score DESC")
     @games = case params[:filter]
       when 'daily'
-        Game.finished.where(["created_at > ?",]).order("score DESC").limit(30).all
+        basic_sql.where(["finished_at > ?", Date.today])
       when 'alltime'
-        Game.finished.order("score DESC").limit(30).all
+        basic_sql
       when 'player'
-        Game.finished.order("score DESC").limit(30).all
+        join_sql = basic_sql.group("player_id").select("player_id, MAX(score) score").to_sql
+        basic_sql.from("`games`, (#{join_sql}) g2").where("`games`.player_id = g2.player_id AND `games`.score = g2.score")
       else
         Game.not_finished.order("updated_at DESC")
     end
 
     if request.xhr?
-      render :json => @games.to_json( :only => [:id, :score, :slot, :name, :twitter_handle], :include => [:player], :methods => [:score_s] )
+      render :json => @games.to_json( :only => [:id, :score, :slot, :name, :twitter_handle, :updated_at], :include => [:player], :methods => [:score_s, :duration] )
     end
   end
 

@@ -48,6 +48,16 @@ updateSlots = function(games){
     $(".no_games").removeClass('hidden');
   }
 },
+updateGames = function(games){
+  $tr = $('tfoot tr').first();
+  $.each(games, function(index, game) {
+    $tr.clone().appendTo('#highscores')
+      .find(".name").html("" + (index + 1) + ". " + game.player.name).end()
+      .find(".score").html(game.score).end()
+      .find(".date").html(game.updated_at).end()
+      .find(".duration").html(game.duration).end();
+  });
+},
 schedule = function(){
   $('#slots:not(.scheduled)').each(function(){
     var gamesPath = $(this).data('games-path'),
@@ -64,8 +74,14 @@ $(function(){
     schedule();
   });
   $(".best_in_place").best_in_place();
-  var $tabs = $('#scores').tabs();
-
-  //var selected = $tabs.tabs('option', 'selected'); // => 0
-
+  var $tabs = $('#scores').tabs({
+    ajaxOptions: {
+      dataType: 'html', // 'json' doen't work / is not supported
+      success: function (result, status, xhr) {
+        $('#highscores').html("");
+        var games = $.parseJSON(result);
+        updateGames(games);
+      },
+    }
+  });
 });

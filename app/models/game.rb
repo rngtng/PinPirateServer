@@ -19,12 +19,16 @@ class Game < ActiveRecord::Base
 
   scope :latest, order("updated_at DESC, id DESC")
 
+  def self.dummy(slot = 1)
+    Game.new(:slot => slot, :player => Player.new)
+  end
+
   def self.get_slot(slot)
     slot.to_i(16) - 11
   end
 
   def duration
-    (updated_at - created_at).round
+    (updated_at.to_i - created_at.to_i).round
   end
 
   def score_s

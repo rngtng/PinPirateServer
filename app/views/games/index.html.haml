@@ -4,13 +4,13 @@
     - 4.times do |slot|
       = render "slot", :slot => slot+1
     %li.no_games
-      No Games
+      C'mon, start a new game!
 
   -# http://jqueryui.com/demos/tabs/#default
   #scores
     %ul
       %li
-        = link_to "Daily HighScore", "#highscores", :title => "highscores"
+        = link_to "Daily HighScore", games_path(:filter => 'daily'), :title => "highscores"
       %li
         = link_to "Alltime HighScore", games_path(:filter => 'alltime'), :title => "highscores"
       %li
@@ -25,4 +25,10 @@
           %th.duration Duration
 
       %tbody#highscores
-        = render @games
+
+      %tfoot{:style => "display: none"}
+        %tr
+          %td.name
+          %td.score
+          %td.date
+          %td.duration

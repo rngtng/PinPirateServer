@@ -121,7 +121,10 @@ $pageWidth: 8 * $dotWidth * $dotScale;
       @include slot(1.5); }
 
     .no_games {
-      color: #FFF; }
+      color: #333;
+      font-size: 45px;
+      margin-top: 45px;
+    }
 
     .slot, .no_games {
       &.hidden {

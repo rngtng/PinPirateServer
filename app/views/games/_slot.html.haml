@@ -1,4 +1,4 @@
-- game = @games.select { |g| g.slot == slot }.first || Game.new(:slot => slot, :player => Player.new)
+- game = @games.select { |g| g.slot == slot }.first || Game::dummy(slot)
 
 %li.slot.hidden{:id => "nr#{slot}"}
   .player
