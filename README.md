@@ -10,10 +10,9 @@ Dependencies: http://gemnasium.com/rngtng/PinPirateServer.png
 
 
 ### Todo
-  * filter highscore table just player
   * lower schedule polling time if nothing there
 
-  * auto load highscore table
+  * auto reload highscore table
   * redesign
   * edit mode (prevent edit)
   * show ball (easy on wrong slot)
@@ -26,6 +25,7 @@ Dependencies: http://gemnasium.com/rngtng/PinPirateServer.png
   * add integration twitter
 
 ### Done
+   * filter highscore table just player
    * show current games
    * end Nabaztag endpoint to load bootcode
    * add integration test
