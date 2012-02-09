@@ -9,10 +9,10 @@ class EventsController < ApplicationController
     end
 
     @event =  if (size.to_i(16) == 5) && (1..4).member?(Game.get_slot(data.first))
-      @message = { LED_0 => 0xFFFF00 }
+      @message = { LED_0 => 0x22 }
       ScoreEvent.create!(:data => data.join)
     else
-      @color = { LED_0 => 0x0000FF }
+      @message = { LED_0 => 0xFF }
       Event.create!(:data => data.join)
     end
 

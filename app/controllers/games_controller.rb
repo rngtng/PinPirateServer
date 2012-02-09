@@ -32,7 +32,23 @@ class GamesController < ApplicationController
   def button
     respond_to do |format|
       format.jsp do
-        send_nabaztag fire
+
+        send_nabaztag(
+          LED_0 => 0,
+          LED_1 => 0,
+          LED_2 => 0,
+          LED_3 => 0,
+          LED_4 => 0,
+          LED_L0 => 0,
+          LED_L1 => 0,
+          LED_L2 => 0,
+          LED_L3 => 0,
+          LED_L4 => 0,
+          EAR_L  => 0,
+          EAR_R  => 0,
+          EAR_LL => 0,
+          EAR_LR => 0,
+        )
       end
     end
   end

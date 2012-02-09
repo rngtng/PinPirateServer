@@ -5,8 +5,8 @@ class Player < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
 
-  def self.find_or_build_by(attrs)
-    where(attrs).first || new(attrs)
+  def self.find_or_create_by(attrs)
+    where(attrs).first || create(attrs)
   end
 
   def handle

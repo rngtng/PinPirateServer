@@ -34,7 +34,8 @@ class ScoreEvent < Event
   def check_game
     self.game ||= begin
       #TODO get player from last game
-      player = Player.create!(:name => "Player #{self.slot}")
+      # TODO write test  where "Player 3" already exits
+      player = Player.find_or_create_by(:name => "Player #{self.slot}")
       Game.create!(:player => player, :slot => self.slot)
     end
   end
