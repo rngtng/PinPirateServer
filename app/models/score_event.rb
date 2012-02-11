@@ -43,7 +43,8 @@ class ScoreEvent < Event
   # switch to new game
   def check_if_new_game
     if self.game.score > self.score
-      Game.not_finished.map &:finish!
+      # TODO write test only if game 1
+      Game.not_finished.map &:finish! if game.slot == 1
       self.game = Game.create!(:player => self.game.player, :slot => self.game.slot)
     end
   end
