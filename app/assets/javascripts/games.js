@@ -14,9 +14,12 @@ var request = function(gamesPath){
     }
   });
 },
-updateSlot = function(game){
+updateSlot = function(game, current){
   var $slot = $(".slot#nr" + game.slot);
-  $slot.removeClass('hidden current');
+  $slot.removeClass('hidden');
+  if(current) {
+    $slot.addClass('current');
+  }
   $name = $slot.find(".name span");
   if ($name.html().indexOf("<form") == -1) {
     $name.attr('data-url', '/players/' + game.player.id);
@@ -37,16 +40,11 @@ updateSlot = function(game){
     });
 },
 updateSlots = function(games){
+  $(".slot").removeClass('current').addClass('hidden');
   $.each(games, function(index, game) {
-    updateSlot(game);
-  })
-  if( (game = games[0])) {
-    $(".slot#nr" + game.slot).addClass('current');
-    $(".no_games").addClass('hidden');
-  }
-  else {
-    $(".no_games").removeClass('hidden');
-  }
+    updateSlot(game, (index == 0) );
+  });
+  $(".no_games").toggleClass('hidden', ($(".slot.current").size() == 0) );
 },
 updateGames = function(games){
   $tr = $('tfoot tr').first();
@@ -61,7 +59,7 @@ updateGames = function(games){
 schedule = function(){
   $('#slots:not(.scheduled)').each(function(){
     var gamesPath = $(this).data('games-path'),
-        pullTime = $(this).data('pull-time');
+        pullTime = $(this).attr('data-pull-time'); //data('pull-time');
     $('#slots').addClass('scheduled');
     window.setTimeout(function(){
       request(gamesPath);
@@ -82,6 +80,25 @@ $(function(){
         var games = $.parseJSON(result);
         updateGames(games);
       },
+    }
+  });
+
+  $('body').keyup(function(event) {
+    if(event.shiftKey) {
+      if (event.which == 38) {
+        $('#slots').attr('data-pull-time', function(index, value){
+          value = parseInt(value);
+          return value + 1;
+        });
+        event.preventDefault();
+      }
+      if (event.which == 40) {
+        $('#slots').attr('data-pull-time', function(index, value){
+          value = parseInt(value);
+          return (value > 1 ) ? value - 1 : value;
+        });
+        event.preventDefault();
+      }
     }
   });
 });
