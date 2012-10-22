@@ -1,7 +1,10 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.0'
+gem 'rails', '3.2.8'
 gem 'mysql2'
+
+gem 'thin'
+
 gem 'haml'
 
 # Gems used only for assets and not required
@@ -14,22 +17,14 @@ end
 
 gem 'jquery-rails'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# Deploy with Capistrano
-gem 'capistrano', :group => :development
-
 # To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+# gem 'debugger'
 
 gem 'rspec-rails', :group => [:development, :test]
 gem 'spin', :group => [:development, :test]
 
 #in place editing
 gem 'best_in_place' #, :git => 'git://github.com/bernat/best_in_place.git'
-
-gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
 
 # Nabaztag
 gem "nabaztag_hack_kit" #, :path => "../NabaztagHackKit"
@@ -42,6 +37,8 @@ group :test do
   gem 'capybara'
   # gem 'watchr'
   # gem 'simplecov'
+
+  gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
 end
 
 group :client do

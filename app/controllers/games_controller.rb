@@ -7,14 +7,14 @@ class GamesController < ApplicationController
     basic_sql = Game.finished.limit(30).order("score DESC")
     @games = case params[:filter]
       when 'daily'
-        basic_sql.where(["finished_at > ?", Date.today])
+        basic_sql.where(["finished_at > ?", Time.now.beginning_of_day])
       when 'alltime'
         basic_sql
       when 'player'
         join_sql = basic_sql.group("player_id").select("player_id, MAX(score) score").to_sql
         basic_sql.from("`games`, (#{join_sql}) g2").where("`games`.player_id = g2.player_id AND `games`.score = g2.score")
       else
-        Game.not_finished.order("updated_at DESC")
+        Game.not_finished.order("updated_at DESC, id DESC")
     end
 
     if request.xhr?

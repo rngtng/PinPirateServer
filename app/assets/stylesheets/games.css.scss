@@ -51,7 +51,7 @@ $pageWidth: 8 * $dotWidth * $dotScale;
         background: asset-url("dot.jpeg", image) 0 0;
         background-size: #{$scale * $dotW}px #{$scale * $dotH}px;
         margin: 1px;
-        &i1, &i4,  {
+        &.i1, &.i4 {
           margin-right: #{$scale * 10}px; }
         &.d1 {
           @include dot_pos(0, 4, $scale); }

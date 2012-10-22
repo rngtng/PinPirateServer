@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe GamesController do
 
-  render_views
-
   let(:player) { Player.create( :name => "Player 1" ) }
   let!(:game) { player.games.create }
 
