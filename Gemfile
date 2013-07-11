@@ -4,7 +4,6 @@ gem 'rails', '3.2.12'
 gem 'mysql2'
 
 gem 'thin'
-
 gem 'haml'
 
 # Gems used only for assets and not required
@@ -21,13 +20,9 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 gem 'rspec-rails', :group => [:development, :test]
-gem 'spin', :group => [:development, :test]
 
 #in place editing
 gem 'best_in_place' #, :git => 'git://github.com/bernat/best_in_place.git'
-
-# Nabaztag
-gem "nabaztag_hack_kit" #, :path => "../NabaztagHackKit"
 
 group :test do
   #fixtures

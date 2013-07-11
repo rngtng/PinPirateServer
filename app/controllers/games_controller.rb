@@ -1,7 +1,4 @@
-require 'nabaztag_hack_kit/message/helper'
-
 class GamesController < ApplicationController
-  include NabaztagHackKit::Message::Helper
 
   def index
     basic_sql = Game.finished.limit(30).order("score DESC")
@@ -33,7 +30,7 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.jsp do
 
-        send_nabaztag stop
+        # send_nabaztag stop
       end
     end
   end

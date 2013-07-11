@@ -14,7 +14,7 @@ class PlayersController < ApplicationController
         else
           ERROR
         end
-        send_nabaztag @message
+        # send_nabaztag @message
       end
 
       format.any(:html, :json) do
